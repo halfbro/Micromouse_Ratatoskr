@@ -1,16 +1,16 @@
 CC = avr-gcc
-MCU = atmega32u4
+MCU = atmega645
 PROG = usbtiny
 TARGET = firmware
 
 ARCH = AVR8
-F_CPU = 16000000
+F_CPU = 8000000
 F_USB = $(F_CPU)
 BOARD = USER
 
 LFUSE = 0xFF
 HFUSE = 0x99
-EFUSE = 0xC3
+EFUSE = 0xFF
 
 INCLUDE_DIR = include
 BUILD_DIR = build
