@@ -1,12 +1,11 @@
-#include <avr/interrupt.h>
-
 #include "pathfind.h"
 #include "selftest.h"
+#include "systeminit.h"
 
 Maze maze;
 
 int main(void) {
-  sei();
+  sysinit();
   for (;;) {
     performSelfTest();
   }

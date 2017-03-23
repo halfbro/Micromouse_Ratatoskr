@@ -56,7 +56,6 @@ void checkBuzzer() {
 }
 
 void checkMotors() {
-  initMotors();
   motorsEngage();
   setMotorSpeeds(500, 0);
   _delay_ms(1000);
@@ -72,7 +71,6 @@ void checkMotors() {
 }
 
 void performSelfTest() {
-  initDisplay();
   checkDisplay();
   runTest(checkLEDs, "LEDs");
   runTest(checkBuzzer, "Buzz");
