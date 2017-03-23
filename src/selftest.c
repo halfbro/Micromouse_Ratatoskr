@@ -3,6 +3,7 @@
 #include <util/delay.h>
 
 #include "dotmatrix.h"
+#include "motordriver.h"
 #include "selftest.h"
 
 typedef void (*TestFunc)(void);
@@ -55,14 +56,22 @@ void checkBuzzer() {
 }
 
 void checkMotors() {
-  DDRA |= 0b00001111;
-
-  PORTA |= 0b00001010;
+  initMotors();
+  motorsEngage();
+  setMotorSpeeds(500, 0);
   _delay_ms(1000);
-  PORTA &= 0b11110000;
+  setMotorSpeeds(-500, 0);
+  _delay_ms(1000);
+  setMotorSpeeds(0, 500);
+  _delay_ms(1000);
+  setMotorSpeeds(0, -500);
+  _delay_ms(1000);
+  setMotorSpeeds(0, 0);
+  _delay_ms(1000);
+  motorsDisengage();
 }
 
-int performSelfTest() {
+void performSelfTest() {
   initDisplay();
   checkDisplay();
   runTest(checkLEDs, "LEDs");
