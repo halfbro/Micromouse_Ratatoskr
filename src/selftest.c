@@ -1,8 +1,10 @@
-#include <inttypes.h>
 #include <avr/io.h>
+#include <inttypes.h>
+#include <stdlib.h>
 #include <util/delay.h>
 
 #include "dotmatrix.h"
+#include "irsensors.h"
 #include "motordriver.h"
 #include "selftest.h"
 
@@ -70,9 +72,35 @@ void checkMotors() {
   motorsDisengage();
 }
 
+void checkIRSensors() {
+  _delay_ms(500);
+
+  while (!(PINB & 0b00010000)) {
+
+    // Read sensors into an IRSensorData struct
+    IRSensorData sensors = {
+      .left = 0,
+      .leftcenter = 0,
+      .rightcenter = 0,
+      .right = 500
+    };
+    readIRSensors(&sensors);
+
+    char strout[10] = "asdf";
+    // Converts int to a string value
+    utoa(sensors.right, strout, 10);
+
+    // Output sensor value on the display
+    displayString(strout);
+
+    _delay_ms(50);
+  }
+}
+
 void performSelfTest() {
   checkDisplay();
   runTest(checkLEDs, "LEDs");
   runTest(checkBuzzer, "Buzz");
+  runTest(checkIRSensors, "Sens");
   runTest(checkMotors, "Mtrs");
 }
