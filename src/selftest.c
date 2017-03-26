@@ -82,8 +82,9 @@ void checkIRSensors() {
       .left = 0,
       .leftcenter = 0,
       .rightcenter = 0,
-      .right = 500
+      .right = 0
     };
+
     readIRSensors(&sensors);
 
     char strout[10] = "asdf";

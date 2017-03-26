@@ -26,16 +26,22 @@ void initIRSensors() {
   ADCSRA = 0b10010100;
 
   // Set the IR Emitters as outputs
-  //DDRF? |= 0b00001111 ?;
+  DDRE |= 0b00000011;
 }
 
 void readIRSensors(IRSensorData* sensors) {
   uint16_t templ, templc, temprc, tempr;
-  // Need to add the emitter pulsing somewhere in here...
+
+  PORTE |= 0b00000010;
   templ = readADC(0);
   templc = readADC(1);
+  PORTE &= ~(0b00000010);
+
+  PORTE |= 0b00000001;
   temprc = readADC(2);
   tempr = readADC(3);
+  PORTE &= ~(0b00000001);
+
   sensors->left = templ;
   sensors->leftcenter = templc;
   sensors->rightcenter = temprc;

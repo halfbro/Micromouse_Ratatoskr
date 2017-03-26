@@ -7,8 +7,8 @@
 
 void sysinit() {
   initDisplay();
-  initIRSensors();
   initMotors();
+  initIRSensors();
 
   // Enable interrupts globally
   sei();
