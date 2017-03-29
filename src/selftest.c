@@ -5,6 +5,7 @@
 
 #include "dotmatrix.h"
 #include "irsensors.h"
+#include "leds.h"
 #include "motordriver.h"
 #include "selftest.h"
 
@@ -18,17 +19,14 @@ void runTest(TestFunc test, char *name) {
 }
 
 void checkLEDs() {
-  DDRA |= 0b11000000;
-  DDRB |= 0b00000011;
-
   int t = 0;
   while (!(PINB & 0b00010000)) {
     if (t<500) {
-      PORTA |=   0b11000000;
-      PORTB &= ~(0b00000011);
+      ledsOn (LED_LEFT  | LED_CENTER_LEFT );
+      ledsOff(LED_RIGHT | LED_CENTER_RIGHT);
     } else {
-      PORTA &= ~(0b11000000);
-      PORTB |=   0b00000011;
+      ledsOn (LED_RIGHT | LED_CENTER_RIGHT);
+      ledsOff(LED_LEFT  | LED_CENTER_LEFT );
     }
 
     _delay_ms(1);
@@ -75,6 +73,8 @@ void checkMotors() {
 void checkIRSensors() {
   _delay_ms(500);
 
+  int sensorchoice = 0;
+
   while (!(PINB & 0b00010000)) {
 
     // Read sensors into an IRSensorData struct
@@ -87,12 +87,15 @@ void checkIRSensors() {
 
     readIRSensors(&sensors);
 
-    char strout[10] = "asdf";
+    char strout[5] = "\0\0\0\0";
     // Converts int to a string value
     utoa(sensors.right, strout, 10);
 
     // Output sensor value on the display
     displayString(strout);
+
+    if (!(PINB & 0b00100000)) {
+    }
 
     _delay_ms(50);
   }
