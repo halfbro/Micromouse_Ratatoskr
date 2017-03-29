@@ -1,5 +1,6 @@
 #include <avr/io.h>
 #include <inttypes.h>
+#include <util/delay.h>
 #include "dotmatrix.h"
 
 void initDisplay() {
@@ -28,7 +29,10 @@ void displayChar(uint8_t c, int pos) {
 
 void displayString(char *s) {
   for (int i=0; i<4; ++i) {
-    if (s[i] == '\0') break;
-    displayChar(s[i], i);
+    if (s[i] == '\0')
+      displayChar(' ', i);
+    else
+      displayChar(s[i], i);
+    _delay_us(1);
   }
 }

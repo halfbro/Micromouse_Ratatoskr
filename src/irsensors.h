@@ -11,6 +11,6 @@ typedef struct IRData {
 } IRSensorData;
 
 void initIRSensors();
-void readIRSensors(IRSensorData* sensors);
+void readIRSensors(IRSensorData *sensors);
 
 #endif
