@@ -33,8 +33,8 @@ void checkLEDs() {
     t++;
     if (t>1000) t=0;
   }
-  PORTA &= ~(0b11000000);
-  PORTB &= ~(0b00000011);
+
+  ledsOnlyOn( LED_NONE );
 }
 
 void checkDisplay() {

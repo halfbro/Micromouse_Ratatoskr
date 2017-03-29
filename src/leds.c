@@ -17,3 +17,8 @@ void ledsOff(uint8_t mask) {
   PORTA &= ~((mask & 0b0011) << 6);
   PORTB &= ~((mask & 0b1100) >> 2);
 }
+
+void ledsOnlyOn(uint8_t mask) {
+  ledsOn(mask);
+  ledsOff(~mask);
+}
