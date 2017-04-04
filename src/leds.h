@@ -1,6 +1,8 @@
 #ifndef __LEDS_H__
 #define __LEDS_H__
 
+#include <inttypes.h>
+
 #define LED_NONE          0
 #define LED_LEFT          1
 #define LED_CENTER_LEFT   2
@@ -16,4 +18,3 @@ void ledsOff(uint8_t mask);
 void ledsOnlyOn(uint8_t mask);
 
 #endif
-

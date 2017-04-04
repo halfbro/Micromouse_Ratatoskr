@@ -3,6 +3,7 @@
 #include <stdlib.h>
 #include <util/delay.h>
 
+#include "buttons.h"
 #include "dotmatrix.h"
 #include "irsensors.h"
 #include "leds.h"
@@ -20,7 +21,7 @@ void runTest(TestFunc test, char *name) {
 
 void checkLEDs() {
   int t = 0;
-  while (!(PINB & 0b00010000)) {
+  while (!buttonIsPressed(BUTTON_RIGHT)) {
     if (t<500) {
       ledsOn (LED_LEFT  | LED_CENTER_LEFT );
       ledsOff(LED_RIGHT | LED_CENTER_RIGHT);
@@ -41,7 +42,7 @@ void checkDisplay() {
   displayString("Test");
 
   _delay_ms(200);
-  while (!(PINB & 0b00010000));
+  while (!buttonIsPressed(BUTTON_RIGHT));
 
   clearDisplay();
 }
@@ -49,7 +50,7 @@ void checkDisplay() {
 void checkBuzzer() {
   DDRB |= 0b00100000;
 
-  while (!(PINB & 0b00010000)) {
+  while (!buttonIsPressed(BUTTON_RIGHT)) {
     PORTB ^= 0b00100000;
     _delay_us(250);
   }
@@ -75,7 +76,7 @@ void checkIRSensors() {
 
   int sensorchoice = 0;
 
-  while (!(PINB & 0b00010000)) {
+  while (!buttonIsPressed(BUTTON_RIGHT)) {
 
     // Read sensors into an IRSensorData struct
     IRSensorData sensors = {
@@ -87,14 +88,29 @@ void checkIRSensors() {
 
     readIRSensors(&sensors);
 
+    uint16_t sensorval = 0;
+
+    switch (sensorchoice) {
+      case 0: sensorval = sensors.left; ledsOnlyOn(LED_LEFT); break;
+      case 1: sensorval = sensors.leftcenter; ledsOnlyOn(LED_CENTER_LEFT); break;
+      case 2: sensorval = sensors.rightcenter; ledsOnlyOn(LED_CENTER_RIGHT); break;
+      case 3: sensorval = sensors.right; ledsOnlyOn(LED_RIGHT); break;
+    }
+
     char strout[5] = "\0\0\0\0";
     // Converts int to a string value
-    utoa(sensors.right, strout, 10);
+    utoa(sensorval, strout, 10);
 
     // Output sensor value on the display
     displayString(strout);
 
-    if (!(PINB & 0b00100000)) {
+    if (buttonIsPressed(BUTTON_CENTER)) {
+      sensorchoice += 1;
+      if (sensorchoice > 3) sensorchoice = 0;
+      char name[5] = "Senx";
+      name[3] = sensorchoice + 1 + 0x30;
+      displayString(name);
+      _delay_ms(500);
     }
 
     _delay_ms(50);

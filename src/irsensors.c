@@ -17,24 +17,33 @@ uint16_t readADC(uint8_t sensornum) {
 }
 
 void readIRSensors(IRSensorData *sensors) {
-  uint16_t templ, templc, temprc, tempr;
-
-  PORTE |= 0b00000001;
-  _delay_us(100);
-  templ = readADC(1);
-  _delay_us(100);
-  templc = readADC(1);
-  PORTE &= ~(0b00000001);
-
-  _delay_us(100);
+  uint16_t templ  = 0;
+  uint16_t templc = 0;
+  uint16_t temprc = 0;
+  uint16_t tempr  = 0;
 
   PORTE |= 0b00000010;
-  _delay_us(100);
-  temprc = readADC(1);
-  _delay_us(100);
-  tempr = readADC(1);
-  PORTE &= ~(0b00000010);
 
+  _delay_us(200);
+
+  templ = readADC(0);
+
+  _delay_us(200);
+
+  templc = readADC(1);
+
+  PORTE &= ~(0b00000010);
+  _delay_us(200);
+  PORTE |= 0b00000001;
+  _delay_us(200);
+
+  temprc = readADC(2);
+
+  _delay_us(200);
+
+  tempr = readADC(3);
+
+  PORTE &= ~(0b00000001);
   sensors->left = templ;
   sensors->leftcenter = templc;
   sensors->rightcenter = temprc;
