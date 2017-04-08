@@ -57,7 +57,7 @@ start:
     int16_t speedX = 0;
     int16_t center = (ir.leftcenter + ir.rightcenter) / 2;
     if (center < 400) {
-      speedX = 8000;
+      speedX = 1200;
     } else {
       speedX = (700 - center)*4;
       if (center > 740 && center < 760) {
