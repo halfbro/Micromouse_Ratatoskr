@@ -72,7 +72,7 @@ void checkMotors() {
 }
 
 void checkIRSensors() {
-  _delay_ms(500);
+  _delay_ms(200);
 
   int sensorchoice = 0;
 
@@ -122,5 +122,5 @@ void performSelfTest() {
   runTest(checkLEDs, "LEDs");
   runTest(checkBuzzer, "Buzz");
   runTest(checkIRSensors, "Sens");
-  runTest(checkMotors, "Mtrs");
+  //runTest(checkMotors, "Mtrs");
 }
