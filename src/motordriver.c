@@ -71,7 +71,7 @@ void setMotorSpeeds(int16_t leftpower, int16_t rightpower) {
 // Define interrupt functions here
 // All interrupts are blocking interrupts (ISR_BLOCK)
 ISR (TIMER1_COMPA_vect, ISR_BLOCK) {
-  if (leftmotordir == DIR_FORWARD) {
+  if (leftmotordir == DIR_REVERSE) {
     PORTA &= ~(0b00000010);
   } else {
     PORTA &= ~(0b00000001);
@@ -79,7 +79,7 @@ ISR (TIMER1_COMPA_vect, ISR_BLOCK) {
 }
 
 ISR (TIMER1_COMPB_vect, ISR_BLOCK) {
-  if (rightmotordir == DIR_FORWARD) {
+  if (rightmotordir == DIR_REVERSE) {
     PORTA &= ~(0b00000100);
   } else {
     PORTA &= ~(0b00001000);
