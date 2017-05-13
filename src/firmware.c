@@ -54,39 +54,8 @@ start:
 
     readIRSensors(&ir);
 
-    int16_t speedX = 0;
-    int16_t center = (ir.leftcenter + ir.rightcenter) / 2;
-    if (center < 400) {
-      speedX = 1200;
-    } else {
-      speedX = (700 - center)*4;
-      if (center > 740 && center < 760) {
-        if (ir.right < wallthreshold) {
-          setMotorSpeeds(1000,-1000);
-          _delay_ms(300);
-        }
-        if (ir.left < wallthreshold) {
-          setMotorSpeeds(-1000,1000);
-          _delay_ms(300);
-        }
-      }
-    }
-
-    int16_t leftdisp = ir.left > wallthreshold ? ir.left - leftsensorhome + 300 : 0;
-    int16_t rightdisp = ir.right > wallthreshold ? ir.right - rightsensorhome + 100 : 0;
-    int16_t disp = (rightdisp - leftdisp)/2;
-    olddisp[head++] = disp;
-    head = head % RINGBUF_SIZE;
-
-    int16_t vel = olddisp[ (head-1) % RINGBUF_SIZE ]-olddisp[(head)];
-
-    int16_t speedW = -disp - vel * abs(disp);
-
-    if (ir.left > 880) speedW += 1800;
-    if (ir.right > 880) speedW -= 1500;
-
-    int16_t leftmotortarget  = speedX + speedW/7;
-    int16_t rightmotortarget = speedX - speedW/7;
+    int16_t leftmotortarget  = 8000;
+    int16_t rightmotortarget = 8000;
 
 
     if ( leftmotorout < leftmotortarget) {
