@@ -9,7 +9,8 @@
 void initIRSensors() {
   // Set IR Emitters as outputs
   DDRE |= 0b00000011;
-  DIDR0 = 0b11111111;
+
+  DDRF &= ~(0b00001111);
 }
 
 uint16_t readADC(uint8_t sensornum) {

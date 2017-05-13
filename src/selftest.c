@@ -3,6 +3,7 @@
 #include <stdlib.h>
 #include <util/delay.h>
 
+#include "atmega-adc.h"
 #include "buttons.h"
 #include "dotmatrix.h"
 #include "irsensors.h"
@@ -115,6 +116,7 @@ void checkIRSensors() {
 
     _delay_ms(50);
   }
+
 }
 
 void performSelfTest() {
